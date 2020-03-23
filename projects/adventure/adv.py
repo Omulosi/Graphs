@@ -48,26 +48,20 @@ while len(visited) < 500:
     try:
         if current_node not in visited:
             visited.add(current_node)
-
             neighbor_nodes = set()
             stored_direction = []
-
             for direction in current_node.get_exits():
                 room = current_node.get_room_in_direction(direction)
                 stored_direction.append({"room": room, "dir": direction})
                 neighbor_nodes.add(room)
-
             unvisited_neighbors = neighbor_nodes - visited
             if len(unvisited_neighbors) == 0:
                 raise Exception
             random_neighbor = random.sample(unvisited_neighbors, 1)[-1]
             new_local = local_path.copy()
             new_local.append(random_neighbor)
-
             direction =  [stored for stored in stored_direction if stored["room"] == random_neighbor]
-
             room_dir = direction[-1]["dir"]
-
             traversal_path.append(room_dir)
             stack.push(new_local)
         else: raise Exception
@@ -75,47 +69,36 @@ while len(visited) < 500:
         current_node = local_path[-1]
         neighbor_nodes = set()
         stored_direction = []
-
         for direction in current_node.get_exits():
             room = current_node.get_room_in_direction(direction)
             stored_direction.append({"room": room, "dir": direction})
             neighbor_nodes.add(room)
-
         unvisited_neighbors = neighbor_nodes - visited
         if len(unvisited_neighbors) == 0:
             new_local = local_path[:-1]
             last_node = new_local[-1]
             stored_direction = []
-
             for direction in last_node.get_exits():
                 room = last_node.get_room_in_direction(direction)
                 if room == current_node:
                     stored_direction.append({"room": room, "dir": direction})
-
             direction = stored_direction[-1]['dir']
-
             back_dir =  opposite_dir[f"{direction}"]
-
             traversal_path.append(back_dir)
             stack.push(new_local)
         else:
             neighbor_nodes = set()
             stored_direction = []
-
             for direction in current_node.get_exits():
                 room = current_node.get_room_in_direction(direction)
                 stored_direction.append({"room": room, "dir": direction})
                 neighbor_nodes.add(room)
-
             unvisited_neighbors = neighbor_nodes - visited
             random_neighbor = random.sample(unvisited_neighbors, 1)[-1]
             new_local = local_path.copy()
             new_local.append(random_neighbor)
-
             direction =  [stored for stored in stored_direction if stored["room"] == random_neighbor]
-
             room_dir = direction[-1]["dir"]
-
             traversal_path.append(room_dir)
             stack.push(new_local)
 
